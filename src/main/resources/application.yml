@@ -1,0 +1,25 @@
+server:
+  port: 4001
+
+database:
+  name: bcp
+  username: bcp
+  password: bcp
+
+spring:
+  application:
+    name: bcp-tipocambio
+  datasource:
+    url: jdbc:h2:mem:///~/${database.name};MODE=PostgreSQL;
+    #url: r2dbc:postgresql://${database.host}:${database.port}/${database.name}
+    username: ${database.username}
+    password: ${database.password}
+  liquibase:
+    enabled: true
+    change-log: classpath:/liquibase/master/db_changelog_master.xml
+  jpa:
+    show-sql: false
+
+logging:
+  level:
+    root: info

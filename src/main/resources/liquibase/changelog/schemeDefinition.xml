@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+    <changeSet id="create_tables" author="wquispeo">
+        <createTable tableName="moneda">
+            <column name="id" autoIncrement="true" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="nombre" type="varchar(20)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="simbolo" type="varchar(20)"/>
+        </createTable>
+        <createTable tableName="tipocambio">
+            <column name="id" autoIncrement="true" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="moneda_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="destino_moneda_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fechadesde" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fechahasta" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tipocambio" type="decimal(15,4)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="create_relations" author="wquispeo">
+        <addForeignKeyConstraint baseColumnNames="moneda_id" baseTableName="tipocambio"
+                                 constraintName="fk_tipocambio_moneda_id" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="id" referencedTableName="moneda" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="destino_moneda_id" baseTableName="tipocambio"
+                                 constraintName="fk_tipocambio_destino_moneda_id" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="id" referencedTableName="moneda" validate="true"/>
+    </changeSet>
+</databaseChangeLog>
